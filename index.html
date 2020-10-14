@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Projapps: Projects of Applications</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+    <header></header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm text-center">
+                    <canvas class="img-fluid" id="namecard" width="900" height="540" style="border: 1px solid #c3c3c3"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <a href="https://wa.me/6586845190" style="visibility: hidden" id="whatsapp">WhatsApp Click-to-Chat</a>
+        <a href="mailto:contact@projapps.com?Subject=Web%20Enquiry" style="visibility: hidden" id="contact">contact@projapps.com</a><br/>
+        <a href="http://blog.projapps.com" style="visibility: hidden" id="blog">http://blog.projapps.com</a>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        var inLink = false;
+        var inMail = false;
+        var inWhatsApp = false;
+        var linkText = "http://blog.projapps.com";
+        var mailText = "contact@projapps.com";
+        var linkX = 25;
+        var mailX = 25;
+        var linkY = 465;
+        var mailY = 425;
+        var linkHeight = 18;
+        var mailHeight = 18;
+        var linkWidth, mailWidth;
+        var canvas, canvasRatioX, canvasRatioY;
+
+        function drawText(context) {
+            context.save();
+            context.font = "Bold 24pt Helvetica";
+            context.fillText("Developing", 25, 105);
+            context.font = "Italic 18pt Helvetica";
+            context.fillText("Programming Solutions", 205, 105);
+            context.font = "18pt Helvetica";
+            context.fillText("For Novel Business Ideas", 25, 145);
+            context.restore();
+        }
+
+        function drawImage(context) {
+            var imageObj = new Image();
+            imageObj.onload = function() {
+                context.drawImage(imageObj, 480, -27, 416, 312);
+            };
+            imageObj.src = "images/projapps_text.png";
+            var imageWhatsApp = new Image();
+            imageWhatsApp.onload = function() {
+                context.drawImage(imageWhatsApp, 25, 335, 200, 50);
+            };
+            imageWhatsApp.src = "images/WhatsApp_Logo_5.png";
+        }
+
+        function drawLink(context) {
+            context.save();
+            context.font = "18pt Helvetica";
+            context.fillText(mailText, mailX, mailY);
+            mailWidth = context.measureText(mailText).width;
+            context.fillText(linkText, linkX, linkY);
+            linkWidth = context.measureText(linkText).width;
+            context.restore();
+        }
+
+        function drawStroke(context) {
+            context.save();
+            context.moveTo(0, 550);
+            context.lineTo(910, 460);
+            context.lineWidth = 20;
+            context.strokeStyle = "orange";
+            context.shadowColor = "purple";
+            context.shadowBlur = 20;
+            context.shadowOffsetX = 15;
+            context.shadowOffsetY = 15;
+            context.stroke();
+            context.restore();
+        }
+
+        function on_mousemove(event) {
+            var x, y;
+            if (event.layerX || event.layerX == 0) {
+                x = event.layerX;
+                y = event.layerY;
+            }
+            var scrollX = canvasRatioX * linkX;
+            var scrollY = canvasRatioY * linkY;
+            var scrollWidth = canvasRatioX * linkWidth;
+            var scrollHeight = canvasRatioY * linkHeight;
+            var scrollMailX = canvasRatioX * mailX;
+            var scrollMailY = canvasRatioY * mailY;
+            var scrollMailW = canvasRatioX * mailWidth;
+            var scrollMailH = canvasRatioY * mailHeight;
+            var scrollWAX = canvasRatioX * 25;
+            var scrollWAY = canvasRatioY * 385;
+            var scrollWAW = canvasRatioX * 200;
+            var scrollWAH = canvasRatioY * 50;
+            if (x >= scrollX && x <= (scrollX + scrollWidth) && y <= scrollY && y >= (scrollY - scrollHeight)) {
+                document.body.style.cursor = "pointer";
+                inLink = true;
+                inMail = false;
+                inWhatsApp = false;
+            } else if (x >= scrollMailX && x <= (scrollMailX + scrollMailW) && y <= scrollMailY && y >= (scrollMailY - scrollMailH)) {
+                document.body.style.cursor = "pointer";
+                inLink = false;
+                inMail = true;
+                inWhatsApp = false;
+            } else if (x >= scrollWAX && x <= (scrollWAX + scrollWAW) && y <= scrollWAY && y >= (scrollWAY - scrollWAH)) {
+                document.body.style.cursor = "pointer";
+                inLink = false;
+                inMail = false;
+                inWhatsApp = true;
+            } else {
+                document.body.style.cursor = "";
+                inLink = false;
+                inMail = false;
+                inWhatsApp = false;
+            }
+        }
+
+        function on_click(event) {
+            if (inLink) {
+                document.getElementById('blog').click();
+            } else if (inMail) {
+                document.getElementById('contact').click();
+            } else if (inWhatsApp) {
+                document.getElementById('whatsapp').click();
+            }
+        }
+
+        $(document).ready(function() {
+            canvas = document.getElementById("namecard");
+            if (canvas.getContext) {
+                var context = canvas.getContext("2d");
+                drawText(context);
+                drawImage(context);
+                drawLink(context);
+                drawStroke(context);
+            }
+            canvasRatioX = canvas.scrollWidth / canvas.width;
+            canvasRatioY = canvas.scrollHeight / canvas.height;
+            canvas.addEventListener("mousemove", on_mousemove, false);
+            canvas.addEventListener("click", on_click, false);
+            marginTop = (window.innerHeight - canvas.height) / 2;
+            canvas.style.marginTop = marginTop + "px";
+        });
+
+        $(window).resize(function() {
+            canvasRatioX = canvas.scrollWidth / canvas.width;
+            canvasRatioY = canvas.scrollHeight / canvas.height;
+        });
+
+        //Tracking code customizations only
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-10304105-3']);
+        _gaq.push(['_setDomainName', 'projapps.com']);
+        _gaq.push(['_addIgnoredRef', 'projapps.com']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+</body>
+</html>
